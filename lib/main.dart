@@ -29,10 +29,23 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(
-          '안녕',
-        ),
+      body: Stack(
+        //상자의 가장자리를 기준으로 자식을 배치하는 위젯. 여러 자식 요소를 겹칠 수 있음
+        children: <Widget>[
+          Container(
+            height: 45.0,
+            color: Theme.of(context).accentColor,
+          ),
+          Positioned(
+            //Stack 위젯은 Position을 이용하여 배치해준다.
+            right: 0,
+            child: Text(
+              '6',
+              style: TextStyle(fontSize: 200.0, color: Color(0x10000000)),
+            ),
+          ),
+          _mainContent(context),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         //하단 +버튼
@@ -47,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Row(
           //가로정렬
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //children 요소들이 주축에 따라 수직 정렬
+          //Row니까 children 요소들이 주축에 따라 가로 정렬
           children: <Widget>[
             IconButton(
               icon: Icon(Icons.settings),
@@ -60,6 +73,124 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+    );
+  }
+
+  Column _mainContent(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start, //column이니까 가로로 시작지점 정렬
+      children: <Widget>[
+        SizedBox(
+          height: 60.0,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Text(
+            'Monday',
+            style: TextStyle(
+                fontSize: 50.0,
+                letterSpacing: 2.0,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Anton'),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: _button(context),
+        ),
+        SizedBox(
+          height: 16.0,
+        ),
+        _taskUncomplete('효진이랑 주말 약속 잡기'),
+        _taskUncomplete('망고 똥치우기'),
+        _taskUncomplete('마트가서 장보기'),
+        _taskUncomplete('flutter 공부하기'),
+        Divider(), //분리선
+        SizedBox(
+          height: 16.0,
+        ),
+        _taskComplete('오메가3, 멀티비타민 챙겨먹기'),
+        _taskComplete('스트레칭 하기'),
+      ],
+    );
+  }
+
+  Widget _taskUncomplete(String task) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20.0, bottom: 24.0),
+      //요소의 left, bottom 만 패딩 적용
+      child: Row(
+        children: <Widget>[
+          Icon(
+            Icons.radio_button_unchecked,
+            color: Theme.of(context).accentColor,
+            size: 20.0,
+          ),
+          SizedBox(
+            width: 28.0,
+          ),
+          Text(task),
+        ],
+      ),
+    );
+  }
+
+  Widget _taskComplete(String task) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20.0, bottom: 24.0),
+      //요소의 left, bottom 만 패딩 적용
+      child: Row(
+        children: <Widget>[
+          Icon(
+            Icons.radio_button_checked,
+            color: Theme.of(context).accentColor,
+            size: 20.0,
+          ),
+          SizedBox(
+            width: 28.0,
+          ),
+          Text(task),
+        ],
+      ),
+    );
+  }
+
+  Widget _button(BuildContext context) {
+    //복잡한 레이아웃을 단순화하고 싶을때 위젯을 메소드로 추출해줌 (전구누르고 Extract method 클릭. 위젯명 변경가능)
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: MaterialButton(
+            //모서리가 살짝 둥근 네모 버튼
+            onPressed: () {},
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0), //모서리 둥글게
+            ),
+            child: Text('Tasks'),
+            textColor: Colors.white,
+            color: Theme.of(context).accentColor,
+            //현재 주어진 context에서 위로 올라가면서 가장 가까운 Theme을 찾아서 그 color를 반환하라
+            padding: const EdgeInsets.all(14.0),
+            //const = 컴파일 시점에 상수가 되는데 암묵적으로는 final이라 함
+            // textColor: Colors.white,
+          ),
+        ),
+        SizedBox(
+          width: 32.0,
+        ),
+        Expanded(
+          child: MaterialButton(
+            onPressed: () {},
+            shape: RoundedRectangleBorder(
+                side: BorderSide(color: Theme.of(context).accentColor), //보더선
+                borderRadius: BorderRadius.circular(12.0)),
+            child: Text('Events'),
+            textColor: Theme.of(context).accentColor,
+            color: Colors.white,
+            padding: const EdgeInsets.all(14.0),
+          ),
+        ),
+      ],
     );
   }
 }
