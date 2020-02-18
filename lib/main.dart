@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/pages/event_page.dart';
+import 'package:todo_app/pages/task_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -7,11 +9,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         //ThemeData : 앱의 기본적인 디자인 테마를 지정하는 곳으로 이것 역시 argument를 가짐
         primarySwatch: Colors.red,
         //primarySwatch : 기본적으로 사용할 색상 견본을 의미 (특정 색의 음영들을 기본 색상으로 지정하겠다)
+        fontFamily: 'Montserrat',
       ),
       home: MyHomePage(),
     );
@@ -101,57 +105,10 @@ class _MyHomePageState extends State<MyHomePage> {
         SizedBox(
           height: 16.0,
         ),
-        _taskUncomplete('효진이랑 주말 약속 잡기'),
-        _taskUncomplete('망고 똥치우기'),
-        _taskUncomplete('마트가서 장보기'),
-        _taskUncomplete('flutter 공부하기'),
-        Divider(), //분리선
-        SizedBox(
-          height: 16.0,
+        Expanded(
+          child: EventPage(),
         ),
-        _taskComplete('오메가3, 멀티비타민 챙겨먹기'),
-        _taskComplete('스트레칭 하기'),
       ],
-    );
-  }
-
-  Widget _taskUncomplete(String task) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20.0, bottom: 24.0),
-      //요소의 left, bottom 만 패딩 적용
-      child: Row(
-        children: <Widget>[
-          Icon(
-            Icons.radio_button_unchecked,
-            color: Theme.of(context).accentColor,
-            size: 20.0,
-          ),
-          SizedBox(
-            width: 28.0,
-          ),
-          Text(task),
-        ],
-      ),
-    );
-  }
-
-  Widget _taskComplete(String task) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20.0, bottom: 24.0),
-      //요소의 left, bottom 만 패딩 적용
-      child: Row(
-        children: <Widget>[
-          Icon(
-            Icons.radio_button_checked,
-            color: Theme.of(context).accentColor,
-            size: 20.0,
-          ),
-          SizedBox(
-            width: 28.0,
-          ),
-          Text(task),
-        ],
-      ),
     );
   }
 
